@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>仕事を「型」にするスキル｜ハーネス構築インストーラー</title>
+<style>
+  :root { --ink:#1f2a2e; --muted:#5b6b70; --line:#d9e2e4; --bg:#f6f8f7; --card:#fff; --accent:#0f6e6a; --accent-soft:#e3f1ef; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Hiragino Sans","Noto Sans JP",system-ui,sans-serif; line-height:1.8; font-size:17px; }
+  main { max-width:720px; margin:0 auto; padding:40px 20px 64px; }
+  .tag { display:inline-block; font-size:13px; color:var(--accent); background:var(--accent-soft); padding:2px 10px; border-radius:99px; }
+  h1 { font-size:28px; line-height:1.4; margin:12px 0 8px; }
+  .lead { color:var(--muted); margin:0 0 28px; }
+  section { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:22px 22px 18px; margin:0 0 18px; }
+  h2 { font-size:19px; margin:0 0 10px; }
+  ol, ul { margin:0; padding-left:1.4em; }
+  li { margin:4px 0; }
+  .dl { display:block; text-align:center; background:var(--accent); color:#fff; text-decoration:none; font-weight:700; font-size:18px; padding:16px; border-radius:12px; margin:6px 0 4px; }
+  .dl:focus, .dl:hover { background:#0b5753; }
+  .small { font-size:14px; color:var(--muted); }
+  .say { display:flex; gap:10px; align-items:center; background:var(--accent-soft); border-radius:10px; padding:12px 14px; margin-top:8px; }
+  .say code { flex:1; font-family:inherit; font-weight:700; }
+  button { font:inherit; font-size:14px; border:1px solid var(--accent); color:var(--accent); background:#fff; border-radius:8px; padding:6px 12px; cursor:pointer; }
+  .flow { display:flex; flex-wrap:wrap; gap:6px; align-items:center; font-size:15px; }
+  .flow span { background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:4px 10px; }
+  .flow i { font-style:normal; color:var(--muted); }
+  details { margin-top:6px; }
+  summary { cursor:pointer; color:var(--accent); }
+  footer { text-align:center; font-size:13px; color:var(--muted); margin-top:28px; }
+</style>
+</head>
+<body>
+<main>
+  <span class="tag">限定配布・試用版</span>
+  <h1>選ぶだけで、いつもの仕事を「次も同じ品質で回せる型」にする</h1>
+  <p class="lead">Claude に取り込む「スキル」です。一度入れれば、長い指示文を毎回貼る必要はありません。</p>
+
+  <section>
+    <h2>これで何が起きるか</h2>
+    <div class="flow"><span>任せたい仕事を一言</span><i>→</i><span>選択式の質問に答える</span><i>→</i><span>流れの図を見て「はい」</span><i>→</i><span>AIが手順・採点表・テストを作って試す</span><i>→</i><span>完成</span></div>
+    <p class="small">あなたがするのは「選ぶ」「資料を置く」「はい／いいえ」だけです。送信・公開・削除など取り消しにくい操作の前では、必ず止まって確認します。</p>
+  </section>
+
+  <section>
+    <h2>1. ファイルを受け取る</h2>
+    <a class="dl" href="harness-installer.zip" download>スキルをダウンロード（zip）</a>
+    <p class="small">zip は解凍せず、そのまま次へ。</p>
+  </section>
+
+  <section>
+    <h2>2. Claude に取り込む（最初の1回だけ）</h2>
+    <ol>
+      <li>Claude（ブラウザ版かデスクトップアプリ）を開く</li>
+      <li>左下の名前 →「設定」または「カスタマイズ」→「スキル」を開く</li>
+      <li>「＋」または「アップロード」で、さっきの zip を選ぶ。スイッチがオンになっていれば完了</li>
+    </ol>
+    <p class="small">「コード実行とファイル作成」がオフだと動きません。設定の「機能」でオンにしてください。プランによっては表示されない場合があります。</p>
+    <details>
+      <summary>Claude Code を使っている人はこちら</summary>
+      <p class="small">zip を解凍し、出てきた「harness-installer」フォルダを、使いたいプロジェクトの <code>.claude/skills/</code> に置いてください。ホームの <code>~/.claude/skills/</code> に置くと、どこでも使えます。Claude Code で使うと、パソコン上に作業フォルダまで作ってくれます。</p>
+    </details>
+  </section>
+
+  <section>
+    <h2>3. 話しかける</h2>
+    <p>新しいチャットで、こう言うだけです。</p>
+    <div class="say"><code id="phrase">いつもの仕事を型にしたい</code><button type="button" onclick="copyPhrase(this)">コピー</button></div>
+    <p class="small">「毎週の報告書づくりをAIに任せたい」のように、仕事の名前を入れるともっと早く進みます。</p>
+  </section>
+
+  <section>
+    <h2>使ってみたら、感想をください</h2>
+    <p class="small">試用版です。「ここで止まった」「この質問が分かりにくかった」など、一言で十分です。作者（ホロ）まで直接どうぞ。</p>
+  </section>
+
+  <footer>作成：ホロ（鈴木和浩）／ 版：2026-10-29</footer>
+</main>
+<script>
+function copyPhrase(btn){
+  var t = document.getElementById('phrase').textContent;
+  navigator.clipboard.writeText(t).then(function(){ btn.textContent='コピーしました'; setTimeout(function(){btn.textContent='コピー';},1500); });
+}
+</script>
+</body>
+</html>

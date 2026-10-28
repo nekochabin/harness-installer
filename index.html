@@ -27,6 +27,10 @@
   .flow span { background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:4px 10px; }
   .flow i { font-style:normal; color:var(--muted); }
   details { margin-top:6px; }
+  .tabs { display:flex; gap:8px; margin:0 0 14px; }
+  .tabs button { flex:1; font-size:16px; padding:10px; border-radius:10px; }
+  .tabs button[aria-selected="true"] { background:var(--accent); color:#fff; font-weight:700; }
+  .say code { word-break:break-all; }
   summary { cursor:pointer; color:var(--accent); }
   footer { text-align:center; font-size:13px; color:var(--muted); margin-top:28px; }
 </style>
@@ -35,7 +39,7 @@
 <main>
   <span class="tag">限定配布・試用版</span>
   <h1>選ぶだけで、いつもの仕事を「次も同じ品質で回せる型」にする</h1>
-  <p class="lead">Claude に取り込む「スキル」です。一度入れれば、長い指示文を毎回貼る必要はありません。</p>
+  <p class="lead">Claude と Codex に取り込む「スキル」です。一度入れれば、長い指示文を毎回貼る必要はありません。</p>
 
   <section>
     <h2>これで何が起きるか</h2>
@@ -43,9 +47,15 @@
     <p class="small">あなたがするのは「選ぶ」「資料を置く」「はい／いいえ」だけです。送信・公開・削除など取り消しにくい操作の前では、必ず止まって確認します。</p>
   </section>
 
+  <nav class="tabs" role="tablist">
+    <button type="button" role="tab" id="t-claude" aria-selected="true" onclick="pick('claude')">Claude を使う人</button>
+    <button type="button" role="tab" id="t-codex" aria-selected="false" onclick="pick('codex')">Codex を使う人</button>
+  </nav>
+
+  <div id="p-claude">
   <section>
     <h2>1. ファイルを受け取る</h2>
-    <a class="dl" href="harness-installer.zip" download>スキルをダウンロード（zip）</a>
+    <a class="dl" href="harness-installer.zip" download>Claude 用スキルをダウンロード（zip）</a>
     <p class="small">zip は解凍せず、そのまま次へ。</p>
   </section>
 
@@ -62,11 +72,29 @@
       <p class="small">zip を解凍し、出てきた「harness-installer」フォルダを、使いたいプロジェクトの <code>.claude/skills/</code> に置いてください。ホームの <code>~/.claude/skills/</code> に置くと、どこでも使えます。Claude Code で使うと、パソコン上に作業フォルダまで作ってくれます。</p>
     </details>
   </section>
+  </div>
+
+  <div id="p-codex" hidden>
+  <section>
+    <h2>1. Codex に取り込む（最初の1回だけ）</h2>
+    <p>ChatGPT アプリの Codex（または Codex CLI）で、次の一文をそのまま送ってください。</p>
+    <div class="say"><code id="install">$skill-installer https://github.com/nekochabin/harness-installer/tree/main/codex/harness-installer をインストールして</code><button type="button" onclick="copyText('install',this)">コピー</button></div>
+    <p class="small">「保存してよいか」の確認が出たら、許可してください。終わったら Codex を開き直します。</p>
+    <details>
+      <summary>手で入れたい人はこちら</summary>
+      <p class="small"><a href="harness-installer-codex.zip" download>Codex 用 zip</a> を解凍し、「harness-installer」フォルダをホームの <code>~/.agents/skills/</code>（そのフォルダだけで使うなら、作業フォルダの <code>.agents/skills/</code>）に置いてください。</p>
+    </details>
+  </section>
+  <section>
+    <h2>2. 作業するフォルダを開く</h2>
+    <p class="small">Codex で、この仕事用のフォルダを選んでおくと、その中に手順書一式を作ります。ホームやデスクトップ全体は選ばないでください。</p>
+  </section>
+  </div>
 
   <section>
     <h2>3. 話しかける</h2>
-    <p>新しいチャットで、こう言うだけです。</p>
-    <div class="say"><code id="phrase">いつもの仕事を型にしたい</code><button type="button" onclick="copyPhrase(this)">コピー</button></div>
+    <p>新しいチャット（Codex なら新しいスレッド）で、こう言うだけです。</p>
+    <div class="say"><code id="phrase">いつもの仕事を型にしたい</code><button type="button" onclick="copyText('phrase',this)">コピー</button></div>
     <p class="small">「毎週の報告書づくりをAIに任せたい」のように、仕事の名前を入れるともっと早く進みます。</p>
   </section>
 
@@ -78,10 +106,17 @@
   <footer>作成：ホロ（鈴木和浩）／ 版：2026-10-29</footer>
 </main>
 <script>
-function copyPhrase(btn){
-  var t = document.getElementById('phrase').textContent;
-  navigator.clipboard.writeText(t).then(function(){ btn.textContent='コピーしました'; setTimeout(function(){btn.textContent='コピー';},1500); });
+function copyText(id,btn){
+  var t=document.getElementById(id).textContent;
+  navigator.clipboard.writeText(t).then(function(){btn.textContent='コピーしました';setTimeout(function(){btn.textContent='コピー';},1500);});
 }
+function pick(k){
+  ['claude','codex'].forEach(function(n){
+    document.getElementById('p-'+n).hidden=(n!==k);
+    document.getElementById('t-'+n).setAttribute('aria-selected',String(n===k));
+  });
+}
+if(location.hash==='#codex'){pick('codex');}
 </script>
 </body>
 </html>

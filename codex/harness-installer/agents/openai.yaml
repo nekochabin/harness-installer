@@ -1,0 +1,4 @@
+interface:
+  display_name: "ハーネス構築インストーラー"
+  short_description: "選ぶだけで、いつもの仕事を次も同じ品質で回せる型にする"
+  default_prompt: "いつもの仕事を型にしたい"
